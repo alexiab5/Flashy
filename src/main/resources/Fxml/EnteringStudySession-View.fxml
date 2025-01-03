@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<DialogPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane prefHeight="258.0" prefWidth="454.0" stylesheets="@styles.css">
+          <children>
+              <HBox layoutX="68.0" layoutY="59.0" prefHeight="38.0" prefWidth="298.0">
+                  <children>
+                      <Label fx:id="chooseDeckLabel" prefHeight="18.0" prefWidth="144.0" text="Choose a deck " />
+                      <ComboBox fx:id="chooseDeckCombobox" prefHeight="38.0" prefWidth="144.0" />
+                  </children>
+              </HBox>
+              <HBox layoutX="68.0" layoutY="113.0" prefHeight="0.0" prefWidth="298.0">
+                  <children>
+                      <Label fx:id="chooseStudyModeLabel" prefHeight="20.0" prefWidth="145.0" text="Choose study mode" />
+                      <ComboBox fx:id="chooseStudyModeCombobox" prefHeight="38.0" prefWidth="146.0" />
+                  </children>
+              </HBox>
+            <HBox layoutX="68.0" layoutY="166.0" prefHeight="38.0" prefWidth="298.0">
+               <children>
+                  <Label fx:id="chooseDifficultyLabel" prefHeight="18.0" prefWidth="173.0" text="Choose the difficulty" />
+                  <ComboBox fx:id="chooseDifficultyCombobox" prefHeight="40.0" prefWidth="172.0" />
+               </children>
+            </HBox>
+          </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="OK" />
+      <ButtonType fx:constant="CANCEL" />
+   </buttonTypes>
+</DialogPane>

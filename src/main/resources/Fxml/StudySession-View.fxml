@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane prefHeight="530.0" prefWidth="695.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mff.cuni.cz.bortosa.flashy.Controllers.StudySessionController">
+   <children>
+      <TextArea fx:id="questionTextArea" editable="false" layoutX="87.0" layoutY="58.0" prefHeight="142.0" prefWidth="546.0" styleClass="studySessionTextAreas" />
+      <TextArea fx:id="answerTextArea" editable="false" layoutX="87.0" layoutY="211.0" prefHeight="124.0" prefWidth="546.0" styleClass="studySessionTextAreas" />
+      <HBox layoutX="95.0" layoutY="490.0" prefHeight="27.0" prefWidth="546.0">
+         <children>
+            <Label fx:id="cardDifficultyLabel" prefHeight="18.0" prefWidth="263.0" text="Rate the difficulty of this card" />
+            <RadioButton fx:id="easyDifficultyRadioButton" mnemonicParsing="false" prefHeight="17.0" prefWidth="70.0" text="Easy">
+               <toggleGroup>
+                  <ToggleGroup fx:id="difficulty" />
+               </toggleGroup></RadioButton>
+            <RadioButton fx:id="mediumDifficultyRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Medium" toggleGroup="$difficulty" />
+            <RadioButton fx:id="hardDifficultyRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="Hard" toggleGroup="$difficulty" />
+         </children>
+      </HBox>
+      <Button fx:id="nextFlashcardButton" layoutX="585.0" layoutY="405.0" mnemonicParsing="false" onAction="#onNextButtonAction" text="Next" />
+      <Button fx:id="showAnswerButton" layoutX="246.0" layoutY="405.0" mnemonicParsing="false" onAction="#onShowAnswerAction" prefHeight="27.0" prefWidth="98.0" text="Show answer" />
+      <Button fx:id="exitSessionButton" layoutX="542.0" layoutY="14.0" mnemonicParsing="false" onAction="#onExitSessionAction" text="Exit Session" />
+      <TextArea fx:id="hintTextArea" editable="false" layoutX="87.0" layoutY="335.0" prefHeight="53.0" prefWidth="546.0" styleClass="studySessionTextAreas" />
+      <Button fx:id="showHintButton" layoutX="371.0" layoutY="405.0" mnemonicParsing="false" onAction="#onShowHintAction" text="Show hint" />
+      <HBox layoutX="95.0" layoutY="463.0" prefHeight="27.0" prefWidth="573.0">
+         <children>
+            <Label prefHeight="18.0" prefWidth="264.0" text="Did you know the answer for this card?" />
+            <RadioButton fx:id="yesRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="69.0" text="Yes">
+               <toggleGroup>
+                  <ToggleGroup fx:id="answerKnew" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="noRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="90.0" text="No" toggleGroup="$answerKnew" />
+            <RadioButton fx:id="toReviewRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="98.0" text="To review" toggleGroup="$answerKnew" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

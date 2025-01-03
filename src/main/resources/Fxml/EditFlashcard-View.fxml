@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<!--TODO-->
+
+
+<DialogPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane prefHeight="530.0" prefWidth="695.0" stylesheets="@styles.css">
+         <children>
+            <HBox layoutX="102.0" layoutY="47.0" prefHeight="133.0" prefWidth="579.0">
+               <children>
+                  <Label text="Answer" />
+                  <TextArea fx:id="editAnswerTextArea" prefHeight="104.0" prefWidth="449.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="93.0" layoutY="191.0" prefHeight="133.0" prefWidth="579.0">
+               <children>
+                  <Label text="Question" />
+                  <TextArea fx:id="editQuestionTextArea" prefHeight="104.0" prefWidth="449.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="96.0" layoutY="333.0" prefHeight="78.0" prefWidth="539.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="58.0" text="Hint" />
+                  <TextArea fx:id="editHintTextArea" prefHeight="104.0" prefWidth="449.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="175.0" layoutY="428.0" prefHeight="49.0" prefWidth="208.0">
+               <children>
+                  <Label text="State" />
+                  <ComboBox fx:id="editStateCombobox" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox layoutX="392.0" layoutY="428.0" prefHeight="49.0" prefWidth="208.0">
+               <children>
+                  <Label prefHeight="18.0" prefWidth="85.0" text="Difficulty" />
+                  <ComboBox fx:id="editDifficultyCombobox" prefWidth="150.0" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="CANCEL" />
+      <ButtonType fx:constant="APPLY" />
+   </buttonTypes>
+</DialogPane>

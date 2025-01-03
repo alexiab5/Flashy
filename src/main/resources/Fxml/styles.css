@@ -1,0 +1,114 @@
+/* General Styling */
+.root {
+    -fx-font-family: 'Segoe UI', sans-serif;
+    -fx-background-color: #f5f5f5;
+    -fx-padding: 10;
+}
+
+/* VBox and HBox Styling */
+VBox, HBox {
+    -fx-spacing: 10;
+    -fx-alignment: center-left;
+}
+
+/* Label Styling */
+Label {
+    -fx-text-fill: #333;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+/* TextArea Styling */
+TextArea {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-font-size: 13px;
+}
+
+/* ComboBox Styling */
+ComboBox {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-font-size: 13px;
+}
+
+/* ToolBar Styling */
+ToolBar {
+    -fx-background-color: #e0e0e0;
+    -fx-border-color: #d0d0d0;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+}
+
+/* Button Styling */
+Button {
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-size: 13px;
+    -fx-padding: 5 10;
+    -fx-cursor: hand;
+}
+
+Button:hover {
+    -fx-background-color: #45a049;
+}
+
+Button:pressed {
+    -fx-background-color: #3e8e41;
+}
+
+/* RadioButton Styling */
+RadioButton {
+    -fx-text-fill: #333;
+    -fx-font-size: 13px;
+    -fx-padding: 5;
+    -fx-cursor: hand;
+}
+
+RadioButton .radio {
+    -fx-mark-color: #4CAF50;
+    -fx-border-color: #d0d0d0;
+    -fx-border-width: 2;
+    -fx-border-radius: 50%;
+    -fx-background-radius: 50%;
+    -fx-padding: 2;
+}
+
+RadioButton:selected .radio {
+    -fx-mark-color: #45a049;
+}
+
+.studySessionTextAreas {
+    -fx-background-color: #f5f5f5;
+    -fx-border-width: 0;
+    -fx-text-fill: black;
+    -fx-padding: 0;
+    -fx-font-size: 14px;
+    -fx-font-family: 'Arial';
+    -fx-wrap-text: true;
+}
+
+.studySessionTextAreas .scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.studySessionTextAreas .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+.studySessionTextAreas .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+
+/*
+TODO
+add styles for checkbox, toggle
+*/

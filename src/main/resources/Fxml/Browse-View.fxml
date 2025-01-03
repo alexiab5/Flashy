@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="530.0" prefWidth="695.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="mff.cuni.cz.bortosa.flashy.Controllers.ModifyingFlashcardController">
+   <children>
+      <Label fx:id="titleLabel" layoutX="312.0" layoutY="98.0" text="Your Flashcards" />
+      <Button fx:id="editButton" layoutX="136.0" layoutY="456.0" mnemonicParsing="false" onAction="#onEditButtonAction" text="Edit" />
+      <Button fx:id="deleteButton" layoutX="335.0" layoutY="456.0" mnemonicParsing="false" onAction="#onDeleteButtonAction" text="Delete" />
+      <Button fx:id="backButton" layoutX="547.0" layoutY="456.0" mnemonicParsing="false" onAction="#onBackButtonAction" text="Back" />
+      <TableView fx:id="flashcardsTableView" layoutX="20.0" layoutY="148.0" prefHeight="276.0" prefWidth="666.0">
+        <columns>
+          <TableColumn fx:id="questionColumn" prefWidth="185.0" text="Question" />
+          <TableColumn fx:id="answerColumn" minWidth="0.0" prefWidth="170.0" text="Answer" />
+            <TableColumn fx:id="hintColumn" minWidth="0.0" prefWidth="161.0" text="Hint" />
+            <TableColumn fx:id="difficultyColumn" prefWidth="75.0" text="Difficulty" />
+            <TableColumn fx:id="stateColumn" prefWidth="75.0" text="State" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>
