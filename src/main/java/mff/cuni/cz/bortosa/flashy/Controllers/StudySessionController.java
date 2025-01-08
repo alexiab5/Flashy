@@ -1,15 +1,10 @@
 package mff.cuni.cz.bortosa.flashy.Controllers;
 
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import mff.cuni.cz.bortosa.flashy.Models.Flashcard;
-import mff.cuni.cz.bortosa.flashy.Models.StudySession;
-import mff.cuni.cz.bortosa.flashy.Observer.Event;
-import mff.cuni.cz.bortosa.flashy.Observer.Observer;
-import mff.cuni.cz.bortosa.flashy.Observer.Subject;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManaged;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManager;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneType;
@@ -23,8 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-
-import static mff.cuni.cz.bortosa.flashy.Models.Flashcard.State.*;
 
 public class StudySessionController implements Initializable, SceneManaged {
 

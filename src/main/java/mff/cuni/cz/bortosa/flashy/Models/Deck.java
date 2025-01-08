@@ -2,6 +2,7 @@ package mff.cuni.cz.bortosa.flashy.Models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Deck {
     private int id;
@@ -42,6 +43,19 @@ public class Deck {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Deck deck = (Deck) o;
+        return id == deck.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override

@@ -86,10 +86,6 @@ public class Flashcard {
         return state;
     }
 
-    public void setState(State state) {
-        this.state = state;
-    }
-
     public Difficulty getDifficulty() {
         return difficulty;
     }
@@ -98,7 +94,7 @@ public class Flashcard {
         this.difficulty = difficulty;
     }
 
-    public void updateState(State newState) {
+    public void setState(State newState) {
         this.state = newState;
     }
 

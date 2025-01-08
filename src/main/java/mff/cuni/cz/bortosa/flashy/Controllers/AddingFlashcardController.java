@@ -72,7 +72,8 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
 
             ComboBoxUtil.createDecksComboBox(decks, deckCombobox);
 
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             AlertDialog.show(Alert.AlertType.ERROR, "Error", "Error fetching decks.");
         }
@@ -156,8 +157,8 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
             createDeckRadioButton.setSelected(false);
 
             AlertDialog.show(Alert.AlertType.CONFIRMATION, "Flashcard added successfully!", null);
-
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             if (e.getMessage().contains("decks.name_UNIQUE"))
                 AlertDialog.show(Alert.AlertType.ERROR, "Error adding flashcard", "The new deck already exists.");
             else
