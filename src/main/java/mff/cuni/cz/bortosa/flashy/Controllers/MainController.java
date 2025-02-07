@@ -92,7 +92,7 @@ public class MainController implements Initializable, SceneManaged, Observer {
     @FXML
     public Button exportDeckButton;
 
-    public ListView<TitledPane> newDecksListView;
+    private TitledPane currentlyExpandedPane = null; // Track the expanded pane in the decks view
 
     public MainController(FlashcardService flashcardService) {
         this.flashcardService = flashcardService;
@@ -128,12 +128,27 @@ public class MainController implements Initializable, SceneManaged, Observer {
         decks = FXCollections.observableArrayList();
 
         // Custom cell factory to display TitledPane for each deck
-        decksListView.setCellFactory(param -> new ListCell<>() {
+        decksListView.setCellFactory(_ -> new ListCell<>() {
             private final TitledPane titledPane = new TitledPane();
             private final Label contentLabel = new Label();
+            private final TextField contentTextField = new TextField();
             {
-                titledPane.setContent(contentLabel);
+                contentTextField.setEditable(false);
+                titledPane.setContent(contentTextField);
                 titledPane.setExpanded(false);
+
+                // Handle expanding/collapsing logic
+                titledPane.expandedProperty().addListener((obs, wasExpanded, isNowExpanded) -> {
+                    if (isNowExpanded) {
+                        // Collapse the previously expanded pane
+                        if (currentlyExpandedPane != null && currentlyExpandedPane != titledPane) {
+                            currentlyExpandedPane.setExpanded(false);
+                        }
+                        currentlyExpandedPane = titledPane; // Track new expanded pane
+                    } else if (currentlyExpandedPane == titledPane) {
+                        currentlyExpandedPane = null; // Reset if collapsed
+                    }
+                });
             }
 
             @Override
@@ -143,7 +158,8 @@ public class MainController implements Initializable, SceneManaged, Observer {
                     setGraphic(null);
                 } else {
                     titledPane.setText(deck.getName());
-                    contentLabel.setText(deck.getDescription());
+//                    contentLabel.setText(deck.getDescription());
+                    contentTextField.setText(deck.getDescription());
                     setGraphic(titledPane);
                 }
             }
@@ -153,6 +169,7 @@ public class MainController implements Initializable, SceneManaged, Observer {
             List<Deck> decksFromDB = flashcardService.getAllDecks();
             decks.addAll(decksFromDB);
             decksListView.setItems(decks);
+            decksListView.setOnMousePressed(_ -> decksListView.getSelectionModel().clearSelection());
         }
         catch (SQLException e){
             e.printStackTrace();
@@ -266,10 +283,11 @@ public class MainController implements Initializable, SceneManaged, Observer {
     }
 
     public void onDeleteButtonAction(ActionEvent actionEvent) {
-        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
-        if (selectedDeck != null) {
+//        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
+        if (currentlyExpandedPane != null) {
             try {
-                flashcardService.deleteDeck(selectedDeck);
+                flashcardService.deleteDeckByName(currentlyExpandedPane.getText().trim());
+                AlertDialog.show(Alert.AlertType.CONFIRMATION, "Confirmation", "Deck successfully deleted!");
             } catch (SQLException e) {
                 e.printStackTrace();
                 AlertDialog.show(Alert.AlertType.ERROR, "Error", "Error deleting deck");
@@ -287,9 +305,10 @@ public class MainController implements Initializable, SceneManaged, Observer {
     }
 
     public void onExportDeckButtonAction(ActionEvent actionEvent) {
-        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
-        if(selectedDeck == null) {
-            AlertDialog.show(Alert.AlertType.ERROR, "Error", "No deck selected");
+//        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
+
+        if(currentlyExpandedPane == null) {
+            AlertDialog.show(Alert.AlertType.ERROR, "Error", "No deck selected!");
             return;
         }
 
@@ -299,7 +318,7 @@ public class MainController implements Initializable, SceneManaged, Observer {
         Optional<String> result = GetFileNameDialog.show(title, content);
         result.ifPresent(fileName -> {
             try {
-                flashcardService.exportDeckToCSV(selectedDeck.getId(), fileName.trim());
+                flashcardService.exportDeckToCSV(currentlyExpandedPane.getText().trim(), fileName.trim());
                 AlertDialog.show(Alert.AlertType.INFORMATION, "Confirmation", "Deck successfully exported!");
             } catch(SQLException | IOException e){
                 e.printStackTrace();

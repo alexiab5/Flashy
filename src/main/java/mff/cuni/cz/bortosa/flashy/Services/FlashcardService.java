@@ -131,7 +131,15 @@ public class FlashcardService implements Subject {
         notifyObservers(Event.REMOVE_DECK, deck);
     }
 
-    public void exportDeckToCSV(int deckID, String fileName) throws SQLException, IOException {
+    public void deleteDeckByName(String deckName) throws SQLException {
+        Deck deck = decksRepository.getDeckByName(deckName);
+        this.decksRepository.deleteDeck(deck.getId());
+        notifyObservers(Event.REMOVE_DECK, deck);
+    }
+
+    public void exportDeckToCSV(String deckName, String fileName) throws SQLException, IOException {
+        int deckID = getDeckByName(deckName).getId();
+
         String defaultDirectory = "exports";
         if (!fileName.toLowerCase().endsWith(".csv")) {
             fileName += ".csv";
