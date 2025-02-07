@@ -27,7 +27,7 @@
             </HBox>
             <HBox prefHeight="80.0" prefWidth="400.0">
                <children>
-                  <RadioButton fx:id="descriptionRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" text="Add Description" />
+                  <RadioButton fx:id="descriptionRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" text="Add Description" onAction="#onSetDescriptionRadioButtonAction"/>
                   <TextArea fx:id="descriptionTextField" prefHeight="80.0" prefWidth="366.0" />
                </children>
             </HBox>

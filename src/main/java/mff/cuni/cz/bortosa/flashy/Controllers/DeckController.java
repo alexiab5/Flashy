@@ -45,6 +45,8 @@ public class DeckController implements Initializable, SceneManaged {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        descriptionRadioButton.setSelected(false);
+        descriptionTextField.setVisible(false);
     }
 
     @Override
@@ -83,11 +85,21 @@ public class DeckController implements Initializable, SceneManaged {
             nameTextField.clear();
             descriptionTextField.clear();
             descriptionRadioButton.setSelected(false);
+            descriptionTextField.setVisible(false);
 
             AlertDialog.show(Alert.AlertType.CONFIRMATION, "Deck added successfully!", null);
 
         } catch (SQLException e) {
             AlertDialog.show(Alert.AlertType.ERROR, "Error adding deck.", e.getMessage());
+        }
+    }
+
+    public void onSetDescriptionRadioButtonAction() {
+        if(descriptionRadioButton.isSelected()){
+            descriptionTextField.setVisible(true);
+        }
+        else{
+            descriptionTextField.setVisible(false);
         }
     }
 }

@@ -44,13 +44,13 @@
       </HBox>
       <HBox layoutX="71.0" layoutY="302.0" prefHeight="53.0" prefWidth="563.0">
          <children>
-            <RadioButton fx:id="addHintRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="96.0" text="Add a Hint" />
+            <RadioButton fx:id="addHintRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="96.0" text="Add a Hint" onAction="#onHintButtonSelectedAction"/>
             <TextArea fx:id="hintTextArea" prefHeight="53.0" prefWidth="451.0" />
          </children>
       </HBox>
       <HBox layoutX="353.0" layoutY="387.0" prefHeight="38.0" prefWidth="287.0">
          <children>
-            <RadioButton fx:id="createDeckRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" text="Create a new deck" />
+            <RadioButton fx:id="createDeckRadioButton" mnemonicParsing="false" prefHeight="27.0" prefWidth="146.0" text="Create a new deck" onAction="#setCreateNewDeckButtonAction"/>
             <TextField fx:id="newDeckTextField" prefHeight="23.0" prefWidth="121.0" />
          </children>
       </HBox>

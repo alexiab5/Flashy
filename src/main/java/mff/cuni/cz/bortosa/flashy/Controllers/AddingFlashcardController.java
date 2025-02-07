@@ -96,6 +96,8 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDecksComboBox();
+        this.newDeckTextField.setVisible(false);
+        this.hintTextArea.setVisible(false);
     }
 
     @Override
@@ -105,6 +107,8 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
 
     @Override
     public void onReloadSceneAction() {
+        this.newDeckTextField.setVisible(false);
+        this.hintTextArea.setVisible(false);
     }
 
     @FXML
@@ -166,4 +170,21 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
         }
     }
 
+    public void onHintButtonSelectedAction() {
+        if(addHintRadioButton.isSelected()){
+            hintTextArea.setVisible(true);
+        }
+        else{
+            hintTextArea.setVisible(false);
+        }
+    }
+
+    public void setCreateNewDeckButtonAction(){
+        if(createDeckRadioButton.isSelected()){
+            newDeckTextField.setVisible(true);
+        }
+        else{
+            newDeckTextField.setVisible(false);
+        }
+    }
 }
