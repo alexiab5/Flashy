@@ -107,8 +107,3 @@ RadioButton:selected .radio {
 .studySessionTextAreas .scroll-pane .content{
     -fx-background-color: transparent;
 }
-
-/*
-TODO
-add styles for checkbox, toggle
-*/

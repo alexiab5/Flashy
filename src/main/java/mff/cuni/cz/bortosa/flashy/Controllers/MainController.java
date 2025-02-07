@@ -92,25 +92,63 @@ public class MainController implements Initializable, SceneManaged, Observer {
     @FXML
     public Button exportDeckButton;
 
+    public ListView<TitledPane> newDecksListView;
+
     public MainController(FlashcardService flashcardService) {
         this.flashcardService = flashcardService;
     }
 
-    private void initializeDeckListView(){
+//    private void initializeDeckListView(){
+//        decks = FXCollections.observableArrayList();
+//
+//        // Customize how Deck objects are displayed
+//        decksListView.setCellFactory(listView -> new TextFieldListCell<>(new StringConverter<>() {
+//            @Override
+//            public String toString(Deck deck) {
+//                return deck.getName();
+//            }
+//
+//            @Override
+//            public Deck fromString(String s) {
+//                return null;
+//            }
+//        }));
+//        try{
+//            List<Deck> decksFromDB = flashcardService.getAllDecks();
+//            decks.addAll(decksFromDB);
+//            decksListView.setItems(decks);
+//        }
+//        catch (SQLException e){
+//            e.printStackTrace();
+//            AlertDialog.show(Alert.AlertType.ERROR, "Error", "Error fetching decks");
+//        }
+//    }
+
+    private void initializeCustomDeckListView() {
         decks = FXCollections.observableArrayList();
 
-        // Customize how Deck objects are displayed
-        decksListView.setCellFactory(listView -> new TextFieldListCell<>(new StringConverter<>() {
-            @Override
-            public String toString(Deck deck) {
-                return deck.getName();
+        // Custom cell factory to display TitledPane for each deck
+        decksListView.setCellFactory(param -> new ListCell<>() {
+            private final TitledPane titledPane = new TitledPane();
+            private final Label contentLabel = new Label();
+            {
+                titledPane.setContent(contentLabel);
+                titledPane.setExpanded(false);
             }
 
             @Override
-            public Deck fromString(String s) {
-                return null;
+            protected void updateItem(Deck deck, boolean empty) {
+                super.updateItem(deck, empty);
+                if (empty || deck == null) {
+                    setGraphic(null);
+                } else {
+                    titledPane.setText(deck.getName());
+                    contentLabel.setText(deck.getDescription());
+                    setGraphic(titledPane);
+                }
             }
-        }));
+        });
+
         try{
             List<Deck> decksFromDB = flashcardService.getAllDecks();
             decks.addAll(decksFromDB);
@@ -124,7 +162,8 @@ public class MainController implements Initializable, SceneManaged, Observer {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        initializeDeckListView();
+//        initializeDeckListView();
+        initializeCustomDeckListView();
     }
 
     @Override

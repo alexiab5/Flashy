@@ -54,7 +54,6 @@ public class DeckController implements Initializable, SceneManaged {
 
     @Override
     public void onReloadSceneAction() {
-
     }
 
     @FXML
