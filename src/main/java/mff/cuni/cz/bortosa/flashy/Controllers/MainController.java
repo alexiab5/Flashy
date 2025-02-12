@@ -33,6 +33,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Controller class for managing the main scene of the application.
+ * This scene is responsible for viewing the available decks together with their description,
+ * but it also handles switching to all the other scenes in the application.
+ * Implements {@link Initializable}, {@link SceneManaged}, {@link Observer} to handle UI initialization,
+ *  * scene management, and event updates respectively.
+ */
 public class MainController implements Initializable, SceneManaged, Observer {
     private SceneManager sceneManager;
     private final FlashcardService flashcardService;
@@ -97,32 +104,6 @@ public class MainController implements Initializable, SceneManaged, Observer {
     public MainController(FlashcardService flashcardService) {
         this.flashcardService = flashcardService;
     }
-
-//    private void initializeDeckListView(){
-//        decks = FXCollections.observableArrayList();
-//
-//        // Customize how Deck objects are displayed
-//        decksListView.setCellFactory(listView -> new TextFieldListCell<>(new StringConverter<>() {
-//            @Override
-//            public String toString(Deck deck) {
-//                return deck.getName();
-//            }
-//
-//            @Override
-//            public Deck fromString(String s) {
-//                return null;
-//            }
-//        }));
-//        try{
-//            List<Deck> decksFromDB = flashcardService.getAllDecks();
-//            decks.addAll(decksFromDB);
-//            decksListView.setItems(decks);
-//        }
-//        catch (SQLException e){
-//            e.printStackTrace();
-//            AlertDialog.show(Alert.AlertType.ERROR, "Error", "Error fetching decks");
-//        }
-//    }
 
     private void initializeCustomDeckListView() {
         decks = FXCollections.observableArrayList();
@@ -206,21 +187,37 @@ public class MainController implements Initializable, SceneManaged, Observer {
         }
     }
 
+    /**
+     * Switches to the scene responsible for creating and adding a new flashcard to a deck.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     @FXML
     public void onCreateFlashcardsButtonAction(ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.ADD_FLASHCARD);
     }
 
+    /**
+     * Switches to the scene responsible for viewing/browsing through the available flashcards.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     @FXML
     public void onBrowseButtonAction(ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.BROWSE);
     }
 
+    /**
+     * Switches to the scene responsible for creating a new deck with description.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     @FXML
     public void onCreateDeckButtonAction(ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.ADD_DECK);
     }
 
+    /**
+     * Handles creating the dialog necessary for getting the information required when creating a new study session.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     public void onStudySessionAction(ActionEvent actionEvent) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/Fxml/EnteringStudySession-View.fxml"));
@@ -265,6 +262,9 @@ public class MainController implements Initializable, SceneManaged, Observer {
         );
     }
 
+    /**
+     * Switches to the scene responsible for the study session.
+     */
     private void createStudySession(){
         Deck deck = chooseDeckCombobox.getSelectionModel().getSelectedItem();
         String selectedMode = chooseStudyModeCombobox.getSelectionModel().getSelectedItem();
@@ -282,6 +282,10 @@ public class MainController implements Initializable, SceneManaged, Observer {
         sceneManager.switchTo(SceneType.STUDY_SESSION);
     }
 
+    /**
+     * Handles deleting a deck form the available list.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     public void onDeleteButtonAction(ActionEvent actionEvent) {
 //        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
         if (currentlyExpandedPane != null) {
@@ -297,6 +301,10 @@ public class MainController implements Initializable, SceneManaged, Observer {
         }
     }
 
+    /**
+     * Handles exiting the application.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     public void onExitButtonAction(ActionEvent actionEvent) {
         boolean confirmed = ConfirmationDialog.show("Exit Confirmation", "Unsaved changes may be lost. Are you sure you want to exit?");
         if (confirmed) {
@@ -304,6 +312,10 @@ public class MainController implements Initializable, SceneManaged, Observer {
         }
     }
 
+    /**
+     * Handles exporting a deck from the available list, to a csv file. It uses a dialog to get the name of the file.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     public void onExportDeckButtonAction(ActionEvent actionEvent) {
 //        Deck selectedDeck = decksListView.getSelectionModel().getSelectedItem();
 
@@ -327,6 +339,10 @@ public class MainController implements Initializable, SceneManaged, Observer {
         });
     }
 
+    /**
+     * Switches to the scene responsible for viewing the statistics for the current flashcards.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     public void onViewStatsButtonAction(ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.STATISTICS);
     }

@@ -24,6 +24,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing the scene responsible for creating and adding flashcards to decks.
+ * Implements {@link Initializable}, {@link SceneManaged}, and {@link Observer} to handle UI initialization,
+ * scene management, and event updates respectively.
+ */
 public class AddingFlashcardController implements Initializable, SceneManaged, Observer {
     private final FlashcardService flashcardService;
     private SceneManager sceneManager;
@@ -59,6 +64,10 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
     @FXML
     public ComboBox<Deck> deckCombobox;
 
+    /**
+     * Constructor for AddingFlashcardController.
+     * @param flashcardService Service for handling flashcard-related database operations.
+     */
     public AddingFlashcardController(FlashcardService flashcardService){
         this.flashcardService = flashcardService;
     }
@@ -79,6 +88,11 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
         }
     }
 
+    /**
+     * Handles updates when a deck is added or removed.
+     * @param eventType The type of event that occurred.
+     * @param data The data associated with the event (e.g., a new or removed deck).
+     */
     @Override
     public void update(Event eventType, Object data) {
         switch(eventType) {
@@ -93,29 +107,50 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
         }
     }
 
+    /**
+     * Initializes the controller and loads deck data into the combo box.
+     * @param url The location used to resolve relative paths for the root object.
+     * @param resourceBundle The resources used to localize the root object.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         loadDecksComboBox();
+        // the text field is visible only when their associated radio buttons are selected
         this.newDeckTextField.setVisible(false);
         this.hintTextArea.setVisible(false);
     }
 
+    /**
+     * Sets the scene manager for navigation between scenes.
+     * @param sceneManager The scene manager instance.
+     */
     @Override
     public void setSceneManager(SceneManager sceneManager) {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     * Resets certain UI elements when the scene is reloaded.
+     */
     @Override
     public void onReloadSceneAction() {
         this.newDeckTextField.setVisible(false);
         this.hintTextArea.setVisible(false);
     }
 
+    /**
+     * Handles the action for the back button, switching back to the main menu scene.
+     * @param actionEvent The action event triggered by clicking the button.
+     */
     @FXML
     public void onBackButtonAction(javafx.event.ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.MAIN_MENU);
     }
 
+    /**
+     * Handles adding a new flashcard to the selected or newly created deck.
+     * @param actionEvent The action event triggered by clicking the add button.
+     */
     @FXML
     public void onAddButtonAction(javafx.event.ActionEvent actionEvent) {
         try {
@@ -170,6 +205,9 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
         }
     }
 
+    /**
+     * Toggles the visibility of the hint text area based on radio button selection.
+     */
     public void onHintButtonSelectedAction() {
         if(addHintRadioButton.isSelected()){
             hintTextArea.setVisible(true);
@@ -179,6 +217,9 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
         }
     }
 
+    /**
+     * Toggles the visibility of the new deck text field based on radio button selection.
+     */
     public void setCreateNewDeckButtonAction(){
         if(createDeckRadioButton.isSelected()){
             newDeckTextField.setVisible(true);

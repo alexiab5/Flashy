@@ -4,6 +4,7 @@ import javafx.scene.layout.*;
 import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
+
 public class GetFileNameDialog {
     public static Optional<String> show(String title, String content) {
         Dialog<String> dialog = new Dialog<>();

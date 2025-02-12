@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import mff.cuni.cz.bortosa.flashy.Models.Flashcard;
+import mff.cuni.cz.bortosa.flashy.Observer.Observer;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManaged;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManager;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneType;
@@ -19,6 +20,14 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+/**
+ * Controller class for managing the scene responsible for handling the study session.
+ * It provides a means of going through the filtered list of flashcards in order to learn them,
+ * updating the information about their state and difficulty if needed.
+ * The user can see the answer for a specific flashcard only by pressing a button. The same goes for seeing a hint.
+ * Implements {@link Initializable}, {@link SceneManaged}, and {@link Observer} to handle UI initialization,
+ * scene management, and event updates respectively.
+ */
 public class StudySessionController implements Initializable, SceneManaged {
 
     public enum StudyMode {
@@ -113,6 +122,10 @@ public class StudySessionController implements Initializable, SceneManaged {
         this.sceneManager = sceneManager;
     }
 
+    /**
+     * Resets certain UI elements when a new study session is created, ensuring the user starts seeing
+     * the filtered flashcard from the beginning of the selected deck.
+     */
     @Override
     public void onReloadSceneAction() {
         try{
@@ -174,6 +187,9 @@ public class StudySessionController implements Initializable, SceneManaged {
         this.studyMode = studyMode;
     }
 
+    /**
+     * Updates the difficulty of the study session.
+     */
     public void setStudySessionDifficulty(StudySessionDifficulty sessionDifficulty) {
         this.sessionDifficulty = sessionDifficulty;
     }
@@ -208,6 +224,10 @@ public class StudySessionController implements Initializable, SceneManaged {
         }
     }
 
+    /**
+     * Handles switching to the next flashcard in the deck for the current study session.\
+     *  @param actionEvent The action event triggered by clicking the add button.
+     */
     public void onNextButtonAction(ActionEvent actionEvent) {
         if(currentFlashcardIndex == -1){
             return;
@@ -236,6 +256,10 @@ public class StudySessionController implements Initializable, SceneManaged {
         difficulty.selectToggle(null);
     }
 
+    /**
+     * Handles switching back to the main scene.
+     *  @param actionEvent The action event triggered by clicking the add button.
+     */
     public void onExitSessionAction(ActionEvent actionEvent) {
         if(currentFlashcardIndex != -1){
             processUserInput(currentFlashcards.get(currentFlashcardIndex));
@@ -247,6 +271,10 @@ public class StudySessionController implements Initializable, SceneManaged {
         sceneManager.switchTo(SceneType.MAIN_MENU);
     }
 
+    /**
+     * Handles displaying the answer for the current flashcard in the study session.
+     *  @param actionEvent The action event triggered by clicking the add button.
+     */
     public void onShowAnswerAction(ActionEvent actionEvent) {
         if(currentFlashcardIndex == -1){
             return;
@@ -254,6 +282,10 @@ public class StudySessionController implements Initializable, SceneManaged {
         setAnswerTextArea(currentFlashcards.get(currentFlashcardIndex));
     }
 
+    /**
+     * Handles displaying the hint for the current flashcard in the study session.
+     *  @param actionEvent The action event triggered by clicking the add button.
+     */
     public void onShowHintAction(ActionEvent actionEvent) {
         if(currentFlashcardIndex == -1){
             return;

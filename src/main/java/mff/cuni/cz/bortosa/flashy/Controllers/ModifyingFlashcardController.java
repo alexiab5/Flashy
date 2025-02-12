@@ -28,6 +28,12 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
+/**
+ * Controller class for managing the scene responsible for displaying the existing flashcards, deleting and
+ * updating them.
+ * Implements {@link Initializable}, {@link SceneManaged}, and {@link Observer} to handle UI initialization,
+ * scene management, and event updates respectively.
+ */
 public class ModifyingFlashcardController implements Initializable, SceneManaged, Observer {
     private final FlashcardService flashcardService;
     private SceneManager sceneManager;
@@ -127,7 +133,11 @@ public class ModifyingFlashcardController implements Initializable, SceneManaged
     public void onReloadSceneAction() {
     }
 
-    // Implement the update method from Observer interface
+    /**
+     * Handles updates when a flashcard is added, removed or updated.
+     * @param eventType The type of event that occurred.
+     * @param data The data associated with the event (e.g., a new or removed flashcard).
+     */
     @Override
     public void update(Event eventType, Object data) {
         switch (eventType) {
@@ -153,6 +163,11 @@ public class ModifyingFlashcardController implements Initializable, SceneManaged
         sceneManager.switchTo(SceneType.MAIN_MENU);
     }
 
+    /**
+     * Handles the action of editing a flashcard. It creates a new dialog with all the fields the user
+     * can update, already initialized with the flashcard's current information.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     @FXML
     public void onEditButtonAction(javafx.event.ActionEvent actionEvent) {
         Flashcard selectedFlashcard = flashcardsTableView.getSelectionModel().getSelectedItem();
@@ -234,6 +249,10 @@ public class ModifyingFlashcardController implements Initializable, SceneManaged
         flashcardService.updateFlashcard(flashcard);
     }
 
+    /**
+     * Handles deleting a flashcard from the list.
+     * @param actionEvent - The action event triggered by clicking the button.
+     */
     @FXML
     public void onDeleteButtonAction(javafx.event.ActionEvent actionEvent) {
         Flashcard selectedFlashcard = flashcardsTableView.getSelectionModel().getSelectedItem();

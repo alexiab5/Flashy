@@ -8,6 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import mff.cuni.cz.bortosa.flashy.Models.Deck;
 import mff.cuni.cz.bortosa.flashy.Models.Flashcard;
+import mff.cuni.cz.bortosa.flashy.Observer.Observer;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManaged;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManager;
 import mff.cuni.cz.bortosa.flashy.Services.FlashcardService;
@@ -20,6 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing the scene responsible for creating new decks.
+ * Implements {@link Initializable}, {@link SceneManaged} to handle UI initialization and
+ * scene management
+ */
 public class DeckController implements Initializable, SceneManaged {
     private final FlashcardService flashcardService;
     private SceneManager sceneManager;
@@ -58,11 +64,20 @@ public class DeckController implements Initializable, SceneManaged {
     public void onReloadSceneAction() {
     }
 
+    /**
+     * Handles the action for the back button, switching back to the main menu scene.
+     * @param actionEvent The action event triggered by clicking the button.
+     */
     @FXML
     public void onBackButtonAction(javafx.event.ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.MAIN_MENU);
     }
 
+    /**
+     * Handles the action for adding a new deck. Displays a confirmation alert if
+     * the operation was successful, or an error alert otherwise.
+     * @param actionEvent The action event triggered by clicking the button.
+     */
     public void onAddButtonAction(javafx.event.ActionEvent actionEvent) {
         try {
             String name = nameTextField.getText().trim();
@@ -94,6 +109,9 @@ public class DeckController implements Initializable, SceneManaged {
         }
     }
 
+    /**
+     * Toggles the visibility of the description text field based on radio button selection.
+     */
     public void onSetDescriptionRadioButtonAction() {
         if(descriptionRadioButton.isSelected()){
             descriptionTextField.setVisible(true);

@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import mff.cuni.cz.bortosa.flashy.Models.Flashcard;
+import mff.cuni.cz.bortosa.flashy.Observer.Observer;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManaged;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneManager;
 import mff.cuni.cz.bortosa.flashy.Scenes.SceneType;
@@ -16,6 +17,11 @@ import java.sql.SQLException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Controller class for managing the scene responsible for displaying statistics regarding the exising flashcards.
+ * Implements {@link Initializable}, {@link SceneManaged}, and {@link Observer} to handle UI initialization and
+ * scene management.
+ */
 public class StatisticsController implements Initializable, SceneManaged {
     public Button exitButtton;
     private SceneManager sceneManager;
@@ -46,7 +52,9 @@ public class StatisticsController implements Initializable, SceneManaged {
         updatePieCharts();
     }
 
-    // Method to populate the PieChart with data for flashcard states
+    /**
+     * Populates the pie charts according to the current statistics (state and difficulty)
+     */
     public void updatePieCharts(){
         try {
             // Fetch data for flashcards by state and difficulty
@@ -54,14 +62,14 @@ public class StatisticsController implements Initializable, SceneManaged {
             Map<Flashcard.Difficulty, Integer> difficultyCountMap = flashcardService.getFlashcardsByDifficulty();
 
             // Update the state pie chart
-            statePieChart.getData().clear();  // Clear any existing data
+            statePieChart.getData().clear();
             for (Map.Entry<Flashcard.State, Integer> entry : stateCountMap.entrySet()) {
                 PieChart.Data data = new PieChart.Data(entry.getKey().toString(), entry.getValue());
                 statePieChart.getData().add(data);
             }
 
             // Update the difficulty pie chart
-            difficultyPieChart.getData().clear();  // Clear any existing data
+            difficultyPieChart.getData().clear();
             for (Map.Entry<Flashcard.Difficulty, Integer> entry : difficultyCountMap.entrySet()) {
                 PieChart.Data data = new PieChart.Data(entry.getKey().toString(), entry.getValue());
                 difficultyPieChart.getData().add(data);
@@ -72,6 +80,9 @@ public class StatisticsController implements Initializable, SceneManaged {
         }
     }
 
+    /**
+     * Handles switching back to the main scene.
+     */
     public void onExitButttonAction(ActionEvent actionEvent) {
         sceneManager.switchTo(SceneType.MAIN_MENU);
     }
