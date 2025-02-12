@@ -11,22 +11,41 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages the scenes of the JavaFX application, allowing for loading, switching,
+ * and retrieving scene controllers while handling dependency injection.
+ */
 public class SceneManager {
     private final Stage primaryStage;
     private final Map<SceneType, Parent> scenes = new HashMap<>();
     private final Map<SceneType, Object> controllers = new HashMap<>();
     private final DependencyInjector injector;
 
+    /**
+     * Constructs a SceneManager with the primary stage and a dependency injector.
+     * @param primaryStage The primary stage of the application.
+     * @param injector     The dependency injector for providing required services.
+     */
     public SceneManager(Stage primaryStage, DependencyInjector injector) {
         this.primaryStage = primaryStage;
         this.injector = injector;
     }
 
+    /**
+     * Loads and stores an FXML scene based on the provided scene type.
+     * @param sceneType The type of scene to be loaded.
+     * @throws IOException If loading the FXML file fails.
+     */
     public void loadScene(SceneType sceneType) throws IOException {
         Parent root = loadView(sceneType);
         scenes.put(sceneType, root);
     }
 
+    /**
+     * Switches the current scene to the specified scene type.
+     * If the scene is managed, it triggers the onReloadSceneAction method.
+     * @param sceneType The scene type to switch to.
+     */
     public void switchTo(SceneType sceneType) {
         Parent sceneRoot = scenes.get(sceneType);
         if (sceneRoot != null) {
@@ -40,18 +59,16 @@ public class SceneManager {
         }
     }
 
+    /**
+     * Retrieves the controller associated with a given scene type.
+     * @param sceneType The scene type for which the controller is requested.
+     * @return The controller object or null if not found.
+     */
     public Object getController(SceneType sceneType) {
         return controllers.get(sceneType);
     }
 
     private Parent loadView(SceneType sceneType) throws IOException {
-//        System.out.println(getClass().getResource(sceneType.getPath()));
-//        URL resource = getClass().getResource(sceneType.getPath());
-//        if (resource != null) {
-//            System.out.println("FXML file found: " + resource);
-//        } else {
-//            System.err.println("FXML file not found!");
-//        }
         FXMLLoader loader = new FXMLLoader(getClass().getResource(sceneType.getPath()));
         loader.setControllerFactory(controllerClass -> {
             try {
@@ -69,6 +86,13 @@ public class SceneManager {
         return loader.load();
     }
 
+    /**
+     * Creates a controller instance for the given class and injects necessary dependencies.
+     *
+     * @param controllerClass The class of the controller to create.
+     * @return The instantiated controller object.
+     * @throws Exception If instantiation fails.
+     */
     private Object createController(Class<?> controllerClass) throws Exception {
         if (controllerClass == AddingFlashcardController.class) {
             AddingFlashcardController controller = new AddingFlashcardController(injector.getFlashcardService());
@@ -103,6 +127,11 @@ public class SceneManager {
         return controllerClass.getDeclaredConstructor().newInstance();
     }
 
+    /**
+     * Retrieves the root node of a previously loaded scene.
+     * @param sceneType The type of scene to retrieve.
+     * @return The root Parent node of the scene, or null if not found.
+     */
     public Parent getScene(SceneType sceneType) {
         return scenes.get(sceneType);
     }

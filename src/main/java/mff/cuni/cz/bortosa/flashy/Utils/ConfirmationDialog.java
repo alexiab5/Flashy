@@ -6,6 +6,9 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
 
+/**
+ * Custom Confirmation Dialog.
+ */
 public class ConfirmationDialog {
     public static boolean show(String title, String content) {
         Alert alert = new Alert(AlertType.CONFIRMATION);

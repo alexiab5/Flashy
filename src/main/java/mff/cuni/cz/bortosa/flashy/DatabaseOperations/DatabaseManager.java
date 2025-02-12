@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ * Class for handling the connection with the local database.
+ */
 public class DatabaseManager {
     private final String url;
     private final String username;

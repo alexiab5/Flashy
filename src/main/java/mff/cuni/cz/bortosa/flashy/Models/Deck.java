@@ -9,18 +9,21 @@ public class Deck {
     private String name;
     private String description;
 
+    // for decks created by the user
     public Deck(String name, String description) {
         this.id = -1;
         this.name = name;
         this.description = description;
     }
 
+    // for decks fetched from the database
     public Deck(int id, String name, String description) {
         this.id = id;
         this.name = name;
         this.description = description;
     }
 
+    // getters, setters ...
     public void setId(int id) {
         this.id = id;
     }
@@ -45,6 +48,7 @@ public class Deck {
         this.name = name;
     }
 
+    // !!!
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -8,6 +8,10 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ *  Repository class for managing the flashcards in the database.
+ *  Provides methods to add, remove, update and retrieve flashcards.
+ */
 public class FlashcardsRepository {
     private final Connection connection;
 
@@ -19,7 +23,7 @@ public class FlashcardsRepository {
         return connection;
     }
 
-    // adds a new flashcard to the database, returns the id generated automatically by the database
+    // Adds a new flashcard to the database, returns the id generated automatically by the database
     public int addFlashcard(Flashcard flashcard) throws SQLException {
         String query = "INSERT INTO flashcards (question, answer, hint) VALUES (?, ?, ?)";
         PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -44,6 +48,7 @@ public class FlashcardsRepository {
         }
     }
 
+    // Retrieves all flashcards in the database
     public List<Flashcard> getAllFlashcards() throws SQLException {
         List<Flashcard> flashcards = new ArrayList<>();
         String query = "SELECT * FROM flashcards";
@@ -64,6 +69,7 @@ public class FlashcardsRepository {
         return flashcards;
     }
 
+    // Deletes a flashcard with the specified ID
     public void deleteFlashcard(int id) throws SQLException {
         String query = "DELETE FROM flashcards WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -72,6 +78,7 @@ public class FlashcardsRepository {
         stmt.executeUpdate();
     }
 
+    // Retrieves a flashcard with the specified ID
     public Flashcard getFlashcardById(int flashcardId) throws SQLException {
         String query = "SELECT * FROM flashcards WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(query);
@@ -93,6 +100,7 @@ public class FlashcardsRepository {
         return null;
     }
 
+    // Updates a flashcard with the specified ID
     public boolean updateFlashcard(Flashcard flashcard) throws SQLException {
         String query = "UPDATE flashcards " +
                 "SET question = ?, answer = ?, hint = ?, state = ?, difficulty = ? " +
@@ -133,7 +141,7 @@ public class FlashcardsRepository {
         }
     }
 
-    // returns a map where keys are the states of the flashcard and values are the number
+    // Returns a map where keys are the states of the flashcard and values are the number
     // of flashcards in the database having that state
     public Map<Flashcard.State, Integer> getFlashcardsByState() throws SQLException {
         String query = "SELECT state, COUNT(*) FROM flashcards GROUP BY state";
@@ -149,7 +157,7 @@ public class FlashcardsRepository {
         return stateCountMap;
     }
 
-    // returns a map where keys are the difficulties of the flashcard and values are the number
+    // Returns a map where keys are the difficulties of the flashcard and values are the number
     // of flashcards in the database having that difficulty
     public Map<Flashcard.Difficulty, Integer> getFlashcardsByDifficulty() throws SQLException {
         String query = "SELECT difficulty, COUNT(*) FROM flashcards GROUP BY difficulty";

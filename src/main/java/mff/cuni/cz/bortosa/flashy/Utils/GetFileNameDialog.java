@@ -5,6 +5,9 @@ import javafx.scene.control.Alert.AlertType;
 
 import java.util.Optional;
 
+/**
+ * Dialog class for retrieving the name of a file from a text field.
+ */
 public class GetFileNameDialog {
     public static Optional<String> show(String title, String content) {
         Dialog<String> dialog = new Dialog<>();

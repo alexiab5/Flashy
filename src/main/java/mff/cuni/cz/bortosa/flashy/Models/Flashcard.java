@@ -34,7 +34,7 @@ public class Flashcard {
         this.difficulty = Difficulty.DEFAULT;
     }
 
-    // for flashcards loaded from the database
+    // for flashcards fetched from the database
     public Flashcard(int id, String question, String answer, String hint, State state, Difficulty difficulty) {
         if (question == null || question.trim().isEmpty()) {
             throw new IllegalArgumentException("Question cannot be null or empty.");
@@ -50,6 +50,7 @@ public class Flashcard {
         this.difficulty = difficulty;
     }
 
+    // getters, setters...
     public void setId(int id){
         this.id = id;
     }

@@ -6,7 +6,17 @@ import javafx.scene.control.ListCell;
 import javafx.util.StringConverter;
 import mff.cuni.cz.bortosa.flashy.Models.Deck;
 
+/**
+ * Combo Box utility class
+ */
 public class ComboBoxUtil {
+
+    /**
+     * Creates a custom Combo Box for decks, displaying only their names.
+     * @param decks - the observable list of decks that the ComboBox will be initialized with
+     * @param deckComboBox - the combobox to be initialized
+     * @return
+     */
     public static ComboBox<Deck> createDecksComboBox(ObservableList<Deck> decks, ComboBox<Deck> deckComboBox) {
         deckComboBox.setItems(decks);
 

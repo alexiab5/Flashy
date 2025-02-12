@@ -20,12 +20,23 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Service class for managing flashcards and decks, implementing the Observer pattern.
+ * Provides methods to add, update, delete, and export flashcards and decks.
+ */
 public class FlashcardService implements Subject {
     private final FlashcardsRepository flashcardsRepository;
     private final FlashcardDeckRepository flashcardDeckRepository;
     private final DecksRepository decksRepository;
     private final List<Observer> observers = new ArrayList<>();
 
+    /**
+     * Constructs a FlashcardService with the required repositories.
+     *
+     * @param flashcardsRepository       Repository for flashcards.
+     * @param flashcardDeckRepository    Repository for flashcard-deck relationships.
+     * @param decksRepository            Repository for decks.
+     */
     public FlashcardService(FlashcardsRepository flashcardsRepository, FlashcardDeckRepository flashcardDeckRepository, DecksRepository decksRepository) {
         this.flashcardsRepository = flashcardsRepository;
         this.flashcardDeckRepository = flashcardDeckRepository;
@@ -52,10 +63,23 @@ public class FlashcardService implements Subject {
         }
     }
 
+    /**
+     * Adds a flashcard without associating it with a deck.
+     *
+     * @param flashcard The flashcard to add.
+     * @throws SQLException If a database error occurs.
+     */
     public void addFlashcardWithoutDeck(Flashcard flashcard) throws SQLException {
         this.flashcardsRepository.addFlashcard(flashcard);
     }
 
+    /**
+     * Adds a flashcard and associates it with an existing deck.
+     *
+     * @param flashcard The flashcard to add.
+     * @param deck      The deck to associate the flashcard with.
+     * @throws SQLException If a database error occurs.
+     */
     public void addFlashcardWithDeck(Flashcard flashcard, Deck deck) throws SQLException {
         int flashcardId = flashcardsRepository.addFlashcard(flashcard);
         flashcardDeckRepository.addFlashcardToDeck(flashcardId, deck.getId());
@@ -64,6 +88,13 @@ public class FlashcardService implements Subject {
         notifyObservers(Event.ADD_FLASHCARD, flashcard);
     }
 
+    /**
+     * Adds a flashcard and creates a new deck for it.
+     *
+     * @param flashcard The flashcard to add.
+     * @param newDeck   The new deck to create and associate with the flashcard.
+     * @throws SQLException If a database error occurs.
+     */
     public void addFlashcardWithNewDeck(Flashcard flashcard, Deck newDeck) throws SQLException {
         int deckId = decksRepository.addDeck(newDeck);
         int flashcardId = flashcardsRepository.addFlashcard(flashcard);
@@ -74,23 +105,54 @@ public class FlashcardService implements Subject {
         notifyObservers(Event.ADD_DECK, newDeck);
     }
 
+    /**
+     * Updates an existing flashcard.
+     *
+     * @param newFlashcard The flashcard to be updated.
+     * @throws SQLException If a database error occurs.
+     */
     public void updateFlashcard(Flashcard newFlashcard) throws SQLException{
         flashcardsRepository.updateFlashcard(newFlashcard);
         notifyObservers(Event.UPDATE_FLASHCARD, newFlashcard);
     }
 
+    /**
+     * Retrieves all flashcards from the repository.
+     *
+     * @return A list of all flashcards.
+     * @throws SQLException If a database error occurs.
+     */
     public List<Flashcard> getAllFlashcards() throws SQLException {
         return flashcardsRepository.getAllFlashcards();
     }
 
+    /**
+     * Retrieves all decks from the repository.
+     *
+     * @return A list of all decks.
+     * @throws SQLException If a database error occurs.
+     */
     public List<Deck> getAllDecks() throws SQLException {
         return decksRepository.getAllDecks();
     }
 
+    /**
+     * Retrieves a deck by its name.
+     *
+     * @param name The name of the deck.
+     * @return The corresponding Deck object.
+     * @throws SQLException If a database error occurs.
+     */
     public Deck getDeckByName(String name) throws SQLException {
         return decksRepository.getDeckByName(name);
     }
 
+    /**
+     * Deletes a flashcard and removes its associations with decks.
+     *
+     * @param flashcardId The ID of the flashcard to delete.
+     * @throws SQLException If a database error occurs.
+     */
     public void deleteFlashcardWithDecks(int flashcardId) throws SQLException {
         try {
             // Begin transaction
@@ -121,22 +183,48 @@ public class FlashcardService implements Subject {
         }
     }
 
+    /**
+     * Adds a new deck to the repository.
+     *
+     * @param deck The deck to add.
+     * @throws SQLException If a database error occurs.
+     */
     public void addDeck(Deck deck) throws SQLException {
         this.decksRepository.addDeck(deck);
         notifyObservers(Event.ADD_DECK, deck);
     }
 
+    /**
+     * Deletes a deck from the repository.
+     *
+     * @param deck The deck to delete.
+     * @throws SQLException If a database error occurs.
+     */
     public void deleteDeck(Deck deck) throws SQLException{
         this.decksRepository.deleteDeck(deck.getId());
         notifyObservers(Event.REMOVE_DECK, deck);
     }
 
+    /**
+     * Deletes a deck by its name.
+     *
+     * @param deckName The name of the deck to delete.
+     * @throws SQLException If a database error occurs.
+     */
     public void deleteDeckByName(String deckName) throws SQLException {
         Deck deck = decksRepository.getDeckByName(deckName);
         this.decksRepository.deleteDeck(deck.getId());
         notifyObservers(Event.REMOVE_DECK, deck);
     }
 
+    /**
+     * Exports a deck's flashcards to a CSV file.
+     *
+     * @param deckName The name of the deck to export.
+     * @param fileName The name of the output CSV file.
+     * @throws SQLException If a database error occurs.
+     * @throws IOException  If a file writing error occurs.
+     */
     public void exportDeckToCSV(String deckName, String fileName) throws SQLException, IOException {
         int deckID = getDeckByName(deckName).getId();
 

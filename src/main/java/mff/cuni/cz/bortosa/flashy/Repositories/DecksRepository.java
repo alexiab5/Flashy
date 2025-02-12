@@ -6,6 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Repository class for managing the decks in the database.
+ * Provides methods to add, remove and retrieve decks from the database.
+ */
 public class DecksRepository {
     private final Connection connection;
 
@@ -48,6 +52,7 @@ public class DecksRepository {
         return decks;
     }
 
+    // Retrieves a deck with a certain name from the database
     public Deck getDeckByName(String name) throws SQLException {
         String query = "SELECT * FROM decks WHERE name = ?";
         try (PreparedStatement stmt = connection.prepareStatement(query)) {
@@ -66,6 +71,7 @@ public class DecksRepository {
         }
     }
 
+    // Retrieves a deck with a certain ID from the database
     public Deck getDeckById(int deckId) throws SQLException {
         String query = "SELECT * FROM decks WHERE id = ?";
         PreparedStatement stmt = connection.prepareStatement(query);
