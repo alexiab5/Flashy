@@ -23,9 +23,9 @@ public class DatabaseManager {
             }
             properties.load(input);
 
-            String url = properties.getProperty("db.url");
-            String user = properties.getProperty("db.user");
-            String password = properties.getProperty("db.password");
+            dbURL = properties.getProperty("db.url");
+            dbUser = properties.getProperty("db.user");
+            dbPassword = properties.getProperty("db.password");
 
         } catch (IOException e) {
             e.printStackTrace();
