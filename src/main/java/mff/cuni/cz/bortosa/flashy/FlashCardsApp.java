@@ -13,11 +13,7 @@ import mff.cuni.cz.bortosa.flashy.Scenes.SceneType;
 public class FlashCardsApp extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        DatabaseManager databaseManager = new DatabaseManager(
-                "jdbc:mysql://127.0.0.1:3306/flashcards_schema",
-                "root",
-                "password"
-        );
+        DatabaseManager databaseManager = new DatabaseManager();
         DependencyInjector injector = new DependencyInjector(databaseManager);
         SceneManager sceneManager = new SceneManager(primaryStage, injector);
 

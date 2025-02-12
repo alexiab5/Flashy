@@ -1,24 +1,38 @@
 package mff.cuni.cz.bortosa.flashy.DatabaseOperations;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 /**
  * Class for handling the connection with the local database.
  */
 public class DatabaseManager {
-    private final String url;
-    private final String username;
-    private final String password;
+    private String dbURL;
+    private String dbUser;
+    private String dbPassword;
 
-    public DatabaseManager(String url, String username, String password) {
-        this.url = url;
-        this.username = username;
-        this.password = password;
+    public DatabaseManager() {
+        try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+            Properties properties = new Properties();
+            if (input == null) {
+                throw new IOException("config.properties file not found");
+            }
+            properties.load(input);
+
+            String url = properties.getProperty("db.url");
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(url, username, password);
+        return DriverManager.getConnection(dbURL, dbUser, dbPassword);
     }
 }
