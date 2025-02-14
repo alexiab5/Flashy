@@ -10,10 +10,13 @@ import mff.cuni.cz.bortosa.flashy.Repositories.DecksRepository;
 import mff.cuni.cz.bortosa.flashy.Repositories.FlashcardDeckRepository;
 import mff.cuni.cz.bortosa.flashy.Repositories.FlashcardsRepository;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.SQLWarning;
 import java.util.List;
@@ -154,9 +157,8 @@ public class FlashcardService implements Subject {
      * @throws SQLException If a database error occurs.
      */
     public void deleteFlashcardWithDecks(int flashcardId) throws SQLException {
-        try {
-            // Begin transaction
-            flashcardsRepository.getConnection().setAutoCommit(false);
+        try (Connection conn = flashcardsRepository.getConnection()) {
+            conn.setAutoCommit(false); // Begin transaction
 
             // Remove associations from flashcard_deck table
             List<Integer> associatedDecks = flashcardDeckRepository.getDecksContainingFlashcard(flashcardId);
@@ -165,21 +167,20 @@ public class FlashcardService implements Subject {
             }
 
             Flashcard removedFlashcard = flashcardsRepository.getFlashcardById(flashcardId);
+
             // Delete the flashcard from the flashcards table
             flashcardsRepository.deleteFlashcard(flashcardId);
 
-            // Commit transaction
-            flashcardsRepository.getConnection().commit();
+            conn.commit(); // Commit transaction
 
-            // notify observers
+            // Notify observers
             notifyObservers(Event.REMOVE_FLASHCARD, removedFlashcard);
         } catch (SQLException e) {
-            // Roll back on failure
-            flashcardsRepository.getConnection().rollback();
+            // Rollback transaction if an error occurs
+            try (Connection conn = flashcardsRepository.getConnection()) {
+                conn.rollback();
+            }
             throw e;
-        } finally {
-            // Restore auto-commit mode
-            flashcardsRepository.getConnection().setAutoCommit(true);
         }
     }
 
@@ -267,6 +268,41 @@ public class FlashcardService implements Subject {
 
     public Map<Flashcard.Difficulty, Integer> getFlashcardsByDifficulty() throws SQLException {
         return flashcardsRepository.getFlashcardsByDifficulty();
+    }
+
+    public void importDeckFromCSV(Deck deck, String fileName) throws SQLException, IOException {
+        String defaultDirectory = "exports";
+        String filePath = Paths.get(defaultDirectory, fileName).toString();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            boolean isFirstLine = true;
+
+            // Ensure the deck exists in the database, create if not
+            int deckId = decksRepository.addDeck(deck);
+
+            while ((line = br.readLine()) != null) {
+                if (isFirstLine) { // Skip the header line
+                    isFirstLine = false;
+                    continue;
+                }
+
+                String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)"); // Properly handle commas inside quotes
+                if (values.length < 6) continue; // Ensure valid row
+
+                String question = values[1].replace("\"", "").trim();
+                String answer = values[2].replace("\"", "").trim();
+                String hint = values[3].replace("\"", "").trim();
+                String state = values[4].trim();
+                String difficulty = values[5].trim();
+
+                // Insert flashcard and get its ID
+                int flashcardId = flashcardsRepository.addFlashcard(new Flashcard(-1, question, answer, hint, Flashcard.State.valueOf(state), Flashcard.Difficulty.valueOf(difficulty)));
+
+                // Associate the flashcard with the deck
+                this.flashcardDeckRepository.addFlashcardToDeck(flashcardId, deckId);
+            }
+        }
     }
 }
 

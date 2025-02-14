@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * Repository class for managing the decks in the database.
- * Provides methods to add, remove and retrieve decks from the database.
+ * Provides methods to add, remove, and retrieve decks.
  */
 public class DecksRepository {
     private final Connection connection;
@@ -17,97 +17,132 @@ public class DecksRepository {
         this.connection = connection;
     }
 
-    // Adds a new deck to the database and returns the generated ID
+    /**
+     * Adds a new deck to the database and returns the generated ID.
+     *
+     * @param deck The deck to be added.
+     * @return The generated ID of the newly inserted deck.
+     * @throws SQLException If a database error occurs.
+     */
     public int addDeck(Deck deck) throws SQLException {
         String query = "INSERT INTO decks (name, description) VALUES (?, ?)";
-        PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-        stmt.setString(1, deck.getName());
-        stmt.setString(2, deck.getDescription());
-        stmt.executeUpdate();
+        try (PreparedStatement stmt = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setString(1, deck.getName());
+            stmt.setString(2, deck.getDescription());
+            stmt.executeUpdate();
 
-        ResultSet generatedKeys = stmt.getGeneratedKeys();
-        if (generatedKeys.next()) {
-            int id = generatedKeys.getInt(1);
-            deck.setId(id);
-            return id;
-        } else {
-            throw new SQLException("Failed to add deck, no ID obtained.");
-        }
-    }
-
-    // Retrieves all decks from the database
-    public List<Deck> getAllDecks() throws SQLException {
-        List<Deck> decks = new ArrayList<>();
-        String query = "SELECT * FROM decks";
-        Statement stmt = connection.createStatement();
-        ResultSet resultSet = stmt.executeQuery(query);
-
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String description = resultSet.getString("description");
-            Deck deck = new Deck(id, name, description);
-            decks.add(deck);
-        }
-        return decks;
-    }
-
-    // Retrieves a deck with a certain name from the database
-    public Deck getDeckByName(String name) throws SQLException {
-        String query = "SELECT * FROM decks WHERE name = ?";
-        try (PreparedStatement stmt = connection.prepareStatement(query)) {
-            stmt.setString(1, name);
-            ResultSet resultSet = stmt.executeQuery();
-
-            if (resultSet.next()) {
-                int id = resultSet.getInt("id");
-                String deckName = resultSet.getString("name");
-                String description = resultSet.getString("description");
-
-                return new Deck(id, deckName, description);
-            } else {
-                return null;
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    deck.setId(id);
+                    return id;
+                } else {
+                    throw new SQLException("Failed to add deck, no ID obtained.");
+                }
             }
         }
     }
 
-    // Retrieves a deck with a certain ID from the database
-    public Deck getDeckById(int deckId) throws SQLException {
-        String query = "SELECT * FROM decks WHERE id = ?";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.setInt(1, deckId);
+    /**
+     * Retrieves all decks from the database.
+     *
+     * @return A list of all decks.
+     * @throws SQLException If a database error occurs.
+     */
+    public List<Deck> getAllDecks() throws SQLException {
+        String query = "SELECT * FROM decks";
+        List<Deck> decks = new ArrayList<>();
 
-        ResultSet resultSet = stmt.executeQuery();
+        try (Statement stmt = connection.createStatement();
+             ResultSet resultSet = stmt.executeQuery(query)) {
 
-        if (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String description = resultSet.getString("description");
-
-            return new Deck(id, name, description);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                String description = resultSet.getString("description");
+                decks.add(new Deck(id, name, description));
+            }
         }
+        return decks;
+    }
 
+    /**
+     * Retrieves a deck by its name.
+     *
+     * @param name The name of the deck.
+     * @return The deck if found, otherwise null.
+     * @throws SQLException If a database error occurs.
+     */
+    public Deck getDeckByName(String name) throws SQLException {
+        String query = "SELECT * FROM decks WHERE name = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, name);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Deck(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description")
+                    );
+                }
+            }
+        }
         return null;
     }
 
-    // Deletes a deck by ID
-    public void deleteDeck(int id) throws SQLException {
-        String query = "DELETE FROM decks WHERE id = ?";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.setInt(1, id);
-        stmt.executeUpdate();
+    /**
+     * Retrieves a deck by its ID.
+     *
+     * @param deckId The ID of the deck.
+     * @return The deck if found, otherwise null.
+     * @throws SQLException If a database error occurs.
+     */
+    public Deck getDeckById(int deckId) throws SQLException {
+        String query = "SELECT * FROM decks WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, deckId);
+            try (ResultSet resultSet = stmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return new Deck(
+                            resultSet.getInt("id"),
+                            resultSet.getString("name"),
+                            resultSet.getString("description")
+                    );
+                }
+            }
+        }
+        return null;
     }
 
-    // Updates an existing deck and returns true if successful
+    /**
+     * Deletes a deck by its ID.
+     *
+     * @param id The ID of the deck to delete.
+     * @throws SQLException If a database error occurs.
+     */
+    public void deleteDeck(int id) throws SQLException {
+        String query = "DELETE FROM decks WHERE id = ?";
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+        }
+    }
+
+    /**
+     * Updates an existing deck's name and description.
+     *
+     * @param deck The deck with updated information.
+     * @return true if the deck was updated successfully, false otherwise.
+     * @throws SQLException If a database error occurs.
+     */
     public boolean updateDeck(Deck deck) throws SQLException {
         String query = "UPDATE decks SET name = ?, description = ? WHERE id = ?";
-        PreparedStatement stmt = connection.prepareStatement(query);
-        stmt.setString(1, deck.getName());
-        stmt.setString(2, deck.getDescription());
-        stmt.setInt(3, deck.getId());
-
-        int rowsAffected = stmt.executeUpdate();
-        return rowsAffected > 0;
+        try (PreparedStatement stmt = connection.prepareStatement(query)) {
+            stmt.setString(1, deck.getName());
+            stmt.setString(2, deck.getDescription());
+            stmt.setInt(3, deck.getId());
+            return stmt.executeUpdate() > 0;
+        }
     }
 
     public Connection getConnection() {

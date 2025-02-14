@@ -194,6 +194,8 @@ public class AddingFlashcardController implements Initializable, SceneManaged, O
             deckCombobox.setValue(null);
             addHintRadioButton.setSelected(false);
             createDeckRadioButton.setSelected(false);
+            hintTextArea.setVisible(false);
+            newDeckTextField.setVisible(false);
 
             AlertDialog.show(Alert.AlertType.CONFIRMATION, "Flashcard added successfully!", null);
         }
