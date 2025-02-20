@@ -1,0 +1,8 @@
+ID,Question,Answer,Hint,State,Difficulty
+80,"Dieses Medikament bekommen Sie in der Apotheke.","You can get this medicine in a pharmacy.","to get",CREATED,DEFAULT
+81,"Eltville ist eine kleine Stadt am Rhein.","Eltwille is a small town on the Rhine.","small",CREATED,DEFAULT
+82,"Ich bin in einer Stunde zurück.","I will be back in an hour.","hour",CREATED,DEFAULT
+83,"Suchst du etwas?","Are you looking for something?","to look / search for",CREATED,DEFAULT
+84,"Können Sie mich verstehen?","Can you understand me?","to understand",CREATED,DEFAULT
+85,"Wer spielt gegen wen?","Who is playing against whom?","against",CREATED,DEFAULT
+86,"Wie heißen Sie, bitte?","What is your name, please?","you (polite",CREATED,DEFAULT

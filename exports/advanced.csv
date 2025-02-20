@@ -1,0 +1,11 @@
+ID,Question,Answer,Hint,State,Difficulty
+59,"une chorale","Groupe de chanteurs exécutant à l'unisson ou à plusieurs voix des œuvres musicales.","Voici Nathalie, chef de notre chorale.",LEARNT,MEDIUM
+60,"un traîneau","Véhicule bas muni de patins à la place de roues, servant à se déplacer sur la neige ou sur la glace.","Le Père Noël a besoin de son traîneau.
+Il conduit un traîneau tiré par des rennes.",LEARNT,MEDIUM
+61,"une luge","Petit traîneau utilisé pour glisser sur la neige","Les enfants font de la luge sur la pente.",LEARNING,HARD
+62,"étendre le linge","Déployer du linge mouillé et le faire sécher quelque part.","Grand-papa est tombé amoureux d’elle un matin, en la voyant étendre le linge.",LEARNT,EASY
+63,"un ruisseau","Petit cours d'eau peu profond","Elle est sûrement au ruisseau pour prendre de l'eau.",LEARNING,HARD
+64,"un péché","Transgression consciente et volontaire de la loi divine, des impératifs religieux","Commettre un péché
+Expier ses péchés",TO_REVIEW,MEDIUM
+65,"une anguille","Poisson serpentiforme au corps visqueux, aux nageoires réduites, capable de respirer hors de l'eau et qui vit dans les cours d'eau, étangs et prairies mais se rend jusqu'au milieu des océans pour y pondre.","",LEARNING,HARD
+66,"une étincelle","Parcelle incandescente qui se détache d'un corps qui brûle, ou qui jaillit au contact ou sous le choc de deux corps.","Même la plus brève étincelle brille.",LEARNT,EASY

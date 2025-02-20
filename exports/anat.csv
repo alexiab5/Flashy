@@ -1,0 +1,21 @@
+ID,Question,Answer,Hint,State,Difficulty
+67,"Origin - Flexor digitorum profundus.
+Insertion - Extensor expansion.
+Artery - Superficial palmar arch, common palmar digital arteries, deep palmar arch, dorsal digital artery.
+Nerve - Third and fourth deep branch of ulnar nerve, first and second median nerve.
+Action - Flex metacarpophalangeal joints, extend interphalangeal joints.
+Antagonist -","Lumbricals","",CREATED,DEFAULT
+68,"Name - Flexor Pollicis Longus.
+Origin - [...]
+Insertion - The base of the distal phalanx of the thumb.
+Artery - Anterior interosseous artery.
+Nerve - Anterior interosseous nerve (branch of median nerve) (C8, T1).
+Action - Flexion of the thumb.
+Antagonist - Extensor pollicis longus and Extensor pollicis brevis.","The middle 2/4 of the anterior surface of the radius and the adjacent interosseus membrane.","",CREATED,DEFAULT
+69,"Name - Extensor Pollicis Brevis.
+Origin - [...]
+Insertion - Thumb, proximal phalanx.
+Artery - Posterior interosseous artery.
+Nerve - Posterior interosseous nerve.
+Action - Extension of thumb at metacarpophalangeal joint.
+Antagonist - Flexor pollicis longus and Flexor pollicis brevis.","Radius and the interosseous membrane.","",CREATED,DEFAULT
